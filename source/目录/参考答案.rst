@@ -19,7 +19,7 @@ Ex1：利用列表推导式写矩阵乘法
     M1 = np.random.rand(2,3)
     M2 = np.random.rand(3,4)
     res = [[sum([M1[i][k] * M2[k][j] for k in range(M1.shape[1])]) for j in range(M2.shape[1])] for i in range(M1.shape[0])]
-    ((M1@M2 - res) < 1e-15).all()
+    (np.abs((M1@M2 - res) < 1e-15)).all()
 
 Ex2：更新矩阵
 ------------------
@@ -137,10 +137,10 @@ Ex1：口袋妖怪数据集
 
 .. ipython:: python
 
-    L_full = [' '.join([i, j]) if i!=j else i for j in dp_dup['Type 1'
-             ].unique() for i in dp_dup['Type 1'].unique()]
-    L_part = [' '.join([i, j]) if type(j)!=float else i for i, j in zip(
-             attr_dup['Type 1'], attr_dup['Type 2'])]
+    L_full = [i+' '+j if i!=j else i for i in df['Type 1'
+             ].unique() for j in df['Type 1'].unique()]
+    L_part = [i+' '+j if not isinstance(j, float) else i for i, j in zip(
+              df['Type 1'], df['Type 2'])]
     res = set(L_full).difference(set(L_part))
     len(res) # 太多，不打印了
 
