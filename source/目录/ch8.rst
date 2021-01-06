@@ -101,7 +101,7 @@
 .. ipython:: python
 
     import re
-    re.findall('Apple', 'Apple! This Is an Apple!')
+    re.findall(r'Apple', 'Apple! This Is an Apple!')
 
 2. 元字符基础
 ----------------
@@ -125,13 +125,13 @@ $           匹配行的结束
 
 .. ipython:: python
 
-    re.findall('.', 'abc')
-    re.findall('[ac]', 'abc')
-    re.findall('[^ac]', 'abc')
-    re.findall('[ab]{2}', 'aaaabbbb') # {n}指匹配n次
-    re.findall('aaa|bbb', 'aaaabbbb')
-    re.findall('a\\?|a\*', 'aa?a*a')
-    re.findall('a?.', 'abaacadaae')
+    re.findall(r'.', 'abc')
+    re.findall(r'[ac]', 'abc')
+    re.findall(r'[^ac]', 'abc')
+    re.findall(r'[ab]{2}', 'aaaabbbb') # {n}指匹配n次
+    re.findall(r'aaa|bbb', 'aaaabbbb')
+    re.findall(r'a\\?|a\*', 'aa?a*a')
+    re.findall(r'a?.', 'abaacadaae')
 
 3. 简写字符集
 ---------------
@@ -152,11 +152,11 @@ $           匹配行的结束
 
 .. ipython:: python
 
-    re.findall('.s', 'Apple! This Is an Apple!')
-    re.findall('\w{2}', '09 8? 7w c_ 9q p@')
-    re.findall('\w\W\B', '09 8? 7w c_ 9q p@')
-    re.findall('.\s.', 'Constant dropping wears the stone.')
-    re.findall('上海市(.{2,3}区)(.{2,3}路)(\d+号)',
+    re.findall(r'.s', 'Apple! This Is an Apple!')
+    re.findall(r'\w{2}', '09 8? 7w c_ 9q p@')
+    re.findall(r'\w\W\B', '09 8? 7w c_ 9q p@')
+    re.findall(r'.\s.', 'Constant dropping wears the stone.')
+    re.findall(r'上海市(.{2,3}区)(.{2,3}路)(\d+号)',
                '上海市黄浦区方浜中路249号 上海市宝山区密山路5号')
 
 三、文本处理的五类操作
@@ -183,7 +183,7 @@ $           匹配行的结束
 2. 合并
 -----------
 
-关于合并一共有两个函数，分别是 ``str.join`` 和 ``str.cat`` 。 ``str.join`` 表示用某个连接符把 ``Series`` 中的字符串列表连接起来，如果列表中出现了字符串元素则返回缺失值：
+关于合并一共有两个函数，分别是 ``str.join`` 和 ``str.cat`` 。 ``str.join`` 表示用某个连接符把 ``Series`` 中的字符串列表连接起来，如果列表中出现了非字符串元素则返回缺失值：
 
 .. ipython:: python
 
@@ -247,7 +247,7 @@ $           匹配行的结束
 .. ipython:: python
 
     s = pd.Series(['a_1_b','c_?'])
-    s.str.replace('\d|\?', 'new')
+    s.str.replace('\d|\?', 'new', regex=True)
 
 当需要对不同部分进行有差别的替换时，可以利用 ``子组`` 的方法，并且此时可以通过传入自定义的替换函数来分别进行处理，注意 ``group(k)`` 代表匹配到的第 ``k`` 个子组（圆括号之间的内容）：
 
@@ -274,7 +274,7 @@ $           匹配行的结束
                         str_road,
                         str_no])
 
-    s.str.replace(pat, my_func)
+    s.str.replace(pat, my_func, regex=True)
 
 这里的数字标识并不直观，可以使用 ``命名子组`` 更加清晰地写出子组代表的含义：
 
@@ -291,7 +291,7 @@ $           匹配行的结束
                         str_road,
                         str_no])
 
-    s.str.replace(pat, my_func)
+    s.str.replace(pat, my_func, regex=True)
 
 这里虽然看起来有些繁杂，但是实际数据处理中对应的替换，一般都会通过代码来获取数据从而构造字典映射，在具体写法上会简洁的多。
 
